@@ -10,26 +10,26 @@ const settings = {
 //Home Page
 const greeting = {
   title: "Hello.",
-  title2: "Hrishi",
-  logo_name: "hrishi.p()",
-  nickname: "hrishi1999 / picleric",
-  full_name: "Hrishi Patel",
+  title2: "Sakshyam",
+  logo_name: "Sakshyam.p()",
+  nickname: "Viper / picleric",
+  full_name: "Sakshyam Kataria",
   subTitle:
     "Full Stack Developer, Machine Learning Enthusiast. Always learning.",
   resumeLink:
-    "https://drive.google.com/file/d/1kcvW8P65jWZFeKR6Jopf3nrQLA1qJCwn/view?usp=sharing",
+    "https://acrobat.adobe.com/id/urn:aaid:sc:ap:0bb61bab-1db4-4907-a28f-34325cdcd7a0",
   mail: "mailto:hrishipatel99@gmail.com",
 };
 
 const socialMediaLinks = {
   /* Your Social Media Link */
-  github: "https://github.com/hrishi1999",
-  linkedin: "https://www.linkedin.com/in/hrishi-patel-ba8476140/",
-  gmail: "hrishipatel99@gmail.com",
+  github: "https://github.com/SakshyamKataria",
+  linkedin: "https://www.linkedin.com/in/sakshyam-kataria",
+  gmail: "sakshyamkataria@gmail.com",
   gitlab: " ",
   facebook: " ",
-  twitter: "https://twitter.com/hrishi_55",
-  instagram: "https://www.instagram.com/picleric/",
+  twitter: "https://x.com/I_m_SAKSHYAM",
+  instagram: "https://www.instagram.com/___sakshyam___",
 };
 
 const skills = {

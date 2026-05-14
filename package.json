@@ -2,11 +2,9 @@
   "private": true,
   "name": "opportfolio",
   "version": "1.2.0",
-  "homepage": "http://hrishi.tech/",
+  "homepage": ".",
   "scripts": {
     "build": "react-scripts build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -b gh-pages -d build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
     "test": "react-scripts test"
@@ -35,6 +33,9 @@
     "lint-staged": "^10.5.4",
     "prettier": "2.2.1",
     "prettier-package-json": "^2.2.0"
+  },
+  "engines": {
+    "node": ">=18 <21"
   },
   "browserslist": {
     "production": [
