@@ -2,7 +2,7 @@
   "private": true,
   "name": "opportfolio",
   "version": "1.2.0",
-  "homepage": ".",
+  "homepage": "/",
   "scripts": {
     "build": "react-scripts build",
     "eject": "react-scripts eject",
