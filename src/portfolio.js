@@ -14,7 +14,7 @@ const greeting = {
   logo_name: "Sakshyam.p()",
   nickname: "Viper / picleric",
   full_name: "Sakshyam Kataria",
-  subTitle: "Full Stack Developer, DevOps Enthusiast. Always learning.",
+  subTitle: "Full Stack Developer, devOps Enthusiast. Always learning.",
   resumeLink:
     "https://acrobat.adobe.com/id/urn:aaid:sc:ap:0bb61bab-1db4-4907-a28f-34325cdcd7a0",
   mail: "mailto:sakshyamkataria@gmail.com",
