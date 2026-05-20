@@ -8,6 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout Repository
@@ -36,9 +37,29 @@ jobs:
 
       - name: Setup SSH
         run: |
-          echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
+          printf '%s\n' "${{ secrets.EC2_SSH_KEY }}" | tr -d '\r' > private_key.pem
           chmod 600 private_key.pem
+          ssh-keygen -y -f private_key.pem > /dev/null
+
+      - name: Test SSH connection to EC2
+        run: |
+          ssh -o BatchMode=yes \
+              -o ConnectTimeout=30 \
+              -o ServerAliveInterval=15 \
+              -o ServerAliveCountMax=4 \
+              -o StrictHostKeyChecking=no \
+              -i private_key.pem \
+              ubuntu@${{ secrets.EC2_HOST }} \
+              'echo ssh_ok'
 
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@${{ secrets.EC2_HOST }} "sudo /home/ubuntu/deploy.sh"
+          ssh -tt \
+              -o BatchMode=yes \
+              -o ConnectTimeout=30 \
+              -o ServerAliveInterval=15 \
+              -o ServerAliveCountMax=40 \
+              -o StrictHostKeyChecking=no \
+              -i private_key.pem \
+              ubuntu@${{ secrets.EC2_HOST }} \
+              'sudo -n bash /home/ubuntu/deploy.sh'
