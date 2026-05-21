@@ -1,0 +1,27 @@
+# Jenkins Server Deployment (Optional Containerized Approach)
+# Use this if you want to run Jenkins inside Docker on the EC2 instance.
+
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins-server
+    user: root # Required to run Docker commands inside Jenkins
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      # Security Tradeoff for Student Project:
+      # Mounting docker.sock gives the Jenkins container full root access to the EC2 host.
+      # This is done for convenience in this dev/demo environment to easily build Docker 
+      # images without setting up a complex Docker-in-Docker (DinD) environment.
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Mount k3s config for kubectl access
+      - /etc/rancher/k3s/k3s.yaml:/etc/rancher/k3s/k3s.yaml:ro
+    environment:
+      - KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
+volumes:
+  jenkins_home:

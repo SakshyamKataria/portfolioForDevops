@@ -1,0 +1,32 @@
+# Dev/demo on EC2: Docker runs frontend + status API (k3s is separate; see docs/docker.md).
+services:
+  portfolio-status-api:
+    build:
+      context: ./docker/status-api
+    image: portfolio-status-api:local
+    container_name: portfolio-status-api
+    environment:
+      BUILD_NUMBER: local
+      GIT_COMMIT: local
+      DEPLOY_ENV: docker
+    ports:
+      - "3001:3001"
+    networks:
+      - portfolio-net
+
+  portfolio-frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    image: portfolio-frontend:local
+    container_name: portfolio-frontend
+    depends_on:
+      - portfolio-status-api
+    ports:
+      - "8080:80"
+    networks:
+      - portfolio-net
+
+networks:
+  portfolio-net:
+    name: portfolio-net
