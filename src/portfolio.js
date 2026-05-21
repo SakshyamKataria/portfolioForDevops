@@ -321,30 +321,17 @@ const skills = {
 const degrees = {
   degrees: [
     {
-      title: "Dalhousie University",
-      subtitle: "Masters in Applied Computer Science",
-      logo_path: "dal.png",
-      alt_name: "DAL",
-      duration: "2022 - 2023",
-      descriptions: [
-        "⚡ Studied Advanced Software Development Concepts, Data Management & Warehousing",
-        "⚡ Learn Advanced Topics in Cloud Computing, Cloud Architecture along with Serverless Computing",
-        "⚡ Worked on projects on courses like Mobile Computing and Web Technologies.",
-      ],
-      website_link: "https://www.dal.ca/",
-    },
-    {
-      title: "SAL Engineering and Technical Institute",
+      title: "The National Institute of Engineering, Mysore",
       subtitle: "B.Tech. in Computer Engineering",
       logo_path: "sal.png",
-      alt_name: "SETI",
-      duration: "2017 - 2021",
+      alt_name: "NIE",
+      duration: "2023-2027",
       descriptions: [
         "⚡ I have studied core subjects like Data Structures, DBMS, Networking, Security, etc.",
         "⚡ I have also completed various online courses for ML/DL, Web Development, Mobile App Development, etc.",
         "⚡ I have implemented several projects based on what I've learnt under my Computer Engineering course. ",
       ],
-      website_link: "https://www.sal.edu.in/",
+      website_link: "https://nie.ac.in/",
     },
   ],
 };
