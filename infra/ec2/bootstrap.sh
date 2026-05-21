@@ -4,10 +4,12 @@ set -euo pipefail
 
 DEPLOY_USER="${DEPLOY_USER:-ubuntu}"
 
-echo "==> Installing base packages..."
+echo "==> Installing base packages and Node.js..."
 apt-get update -qq
 DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
   ca-certificates curl gnupg unzip git jq
+curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+DEBIAN_FRONTEND=noninteractive apt-get install -y -qq nodejs
 
 echo "==> Installing Docker CE..."
 if ! command -v docker &>/dev/null; then

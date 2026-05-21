@@ -71,10 +71,14 @@ pipeline {
 
         stage('Import to k3s') {
             steps {
-                // We use k3s ctr images import to bypass the need for a remote registry
                 sh '''
-                  docker save portfolio-frontend:${IMAGE_TAG} | sudo k3s ctr images import -
-                  docker save portfolio-status-api:${IMAGE_TAG} | sudo k3s ctr images import -
+                  if command -v k3s &> /dev/null; then
+                    docker save portfolio-frontend:${IMAGE_TAG} | sudo k3s ctr images import -
+                    docker save portfolio-status-api:${IMAGE_TAG} | sudo k3s ctr images import -
+                  else
+                    docker save portfolio-frontend:${IMAGE_TAG} | ctr -n k8s.io -a /run/k3s/containerd/containerd.sock images import -
+                    docker save portfolio-status-api:${IMAGE_TAG} | ctr -n k8s.io -a /run/k3s/containerd/containerd.sock images import -
+                  fi
                 '''
             }
         }
