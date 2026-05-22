@@ -63,13 +63,12 @@ pipeline {
         stage('Import to k3s') {
             steps {
                 sh '''
-                  if command -v k3s &> /dev/null; then
-                    docker save portfolio-frontend:${IMAGE_TAG} | sudo k3s ctr images import -
-                    docker save portfolio-status-api:${IMAGE_TAG} | sudo k3s ctr images import -
-                  else
-                    docker save portfolio-frontend:${IMAGE_TAG} | ctr -n k8s.io -a /run/k3s/containerd/containerd.sock images import -
-                    docker save portfolio-status-api:${IMAGE_TAG} | ctr -n k8s.io -a /run/k3s/containerd/containerd.sock images import -
-                  fi
+                  # Explicitly force containerd to inject the image into the k8s.io namespace!
+                  docker save portfolio-frontend:${IMAGE_TAG} > /tmp/frontend.tar
+                  docker save portfolio-status-api:${IMAGE_TAG} > /tmp/api.tar
+                  
+                  sudo k3s ctr -n k8s.io images import /tmp/frontend.tar
+                  sudo k3s ctr -n k8s.io images import /tmp/api.tar
                 '''
             }
         }
