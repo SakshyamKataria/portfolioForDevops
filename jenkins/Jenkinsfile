@@ -77,11 +77,12 @@ pipeline {
         stage('Deploy to k3s') {
             steps {
                 sh '''
+                  # Safely replace the placeholder with the real tag BEFORE applying
+                  sed -i "s/portfolio-frontend:local/portfolio-frontend:${IMAGE_TAG}/g" k8s/staging/frontend-deployment.yaml
+                  sed -i "s/portfolio-status-api:local/portfolio-status-api:${IMAGE_TAG}/g" k8s/staging/status-deployment.yaml
+                  
                   kubectl apply -f k8s/staging/namespace.yaml
                   kubectl apply -f k8s/staging/
-                  
-                  kubectl set image deployment/portfolio-frontend frontend=portfolio-frontend:${IMAGE_TAG} -n staging
-                  kubectl set image deployment/portfolio-status status=portfolio-status-api:${IMAGE_TAG} -n staging
                   
                   kubectl set env deployment/portfolio-status -n staging \
                     BUILD_NUMBER="${IMAGE_TAG}" GIT_COMMIT="$(git rev-parse --short HEAD)"
