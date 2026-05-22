@@ -7,20 +7,19 @@ metadata:
     ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
-    - host: portfolio.local
-      http:
+    - http:
         paths:
           - path: /api
             pathType: Prefix
             backend:
-              service:
-                name: portfolio-status
-                port:
-                  number: 3001
+               service:
+                 name: portfolio-status
+                 port:
+                   number: 3001
           - path: /
             pathType: Prefix
             backend:
-              service:
-                name: portfolio-frontend
-                port:
-                  number: 80
+               service:
+                 name: portfolio-frontend
+                 port:
+                   number: 80
