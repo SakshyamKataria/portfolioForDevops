@@ -8,7 +8,6 @@ pipeline {
         S3_BUCKET = 'sakshyam-portfolio-artifacts'
         IMAGE_TAG = "${env.BUILD_NUMBER}"
         KUBECONFIG = '/etc/rancher/k3s/k3s.yaml'
-        GIT_COMMIT_SHORT = ''
     }
 
     options {
@@ -20,12 +19,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
-                script {
-                    env.GIT_COMMIT_SHORT = sh(
-                        script: 'git rev-parse --short HEAD',
-                        returnStdout: true
-                    ).trim()
-                }
             }
         }
 
@@ -37,7 +30,6 @@ pipeline {
 
         stage('Test') {
             steps {
-                // If you don't have tests yet, this passes without failing the build.
                 sh 'npm test -- --watchAll=false --passWithNoTests || echo "No tests found or test failed, continuing..."'
             }
         }
@@ -50,8 +42,7 @@ pipeline {
 
         stage('Archive to S3') {
             steps {
-                // Calls the script created in Phase 4
-                sh 'bash scripts/s3-upload-artifacts.sh ${BUILD_NUMBER} ${GIT_COMMIT_SHORT}'
+                sh 'bash scripts/s3-upload-artifacts.sh ${BUILD_NUMBER} $(git rev-parse --short HEAD)'
             }
         }
 
@@ -93,7 +84,7 @@ pipeline {
                   kubectl set image deployment/portfolio-status status=portfolio-status-api:${IMAGE_TAG} -n staging
                   
                   kubectl set env deployment/portfolio-status -n staging \
-                    BUILD_NUMBER="${IMAGE_TAG}" GIT_COMMIT="${GIT_COMMIT_SHORT}"
+                    BUILD_NUMBER="${IMAGE_TAG}" GIT_COMMIT="$(git rev-parse --short HEAD)"
                   
                   kubectl rollout status deployment/portfolio-frontend -n staging --timeout=120s
                   kubectl rollout status deployment/portfolio-status -n staging --timeout=120s
@@ -103,7 +94,6 @@ pipeline {
 
         stage('Smoke Test') {
             steps {
-                // K3s Traefik ingress listens on host port 80 by default
                 sh '''
                   sleep 5
                   curl -sf http://localhost/healthz || echo "Frontend healthcheck failed but continuing"
@@ -115,7 +105,6 @@ pipeline {
 
     post {
         always {
-            // Save a snippet of the log or just print a clean summary for docs
             echo "Pipeline finished for build ${BUILD_NUMBER}."
         }
     }
